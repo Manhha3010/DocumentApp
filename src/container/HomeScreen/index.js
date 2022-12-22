@@ -16,6 +16,7 @@ import {Song} from '../../components/Song';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {colors} from '../../const/color';
+import React from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -40,9 +41,9 @@ function HomeScreen() {
       </View>
       {/* <NavBarNavigator /> */}
       <Tab.Navigator style={{flex: 1, minHeight: 1000}}>
-        <Tab.Screen name="Suggest" component={Suggest} />
-        <Tab.Screen name="Song" component={Song} />
-        <Tab.Screen name="Favorite" component={FavoriteScreen} />
+        <Tab.Screen name="Gợi Ý" component={Suggest} />
+        <Tab.Screen name="Tất cả tài liệu" component={Song} />
+        <Tab.Screen name="Tài liệu của tôi" component={FavoriteScreen} />
       </Tab.Navigator>
     </View>
   );

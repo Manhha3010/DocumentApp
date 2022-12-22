@@ -1,37 +1,50 @@
-import { FlatList, View, Image, Text, TouchableOpacity } from "react-native";
+import {
+  FlatList,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import {useEffect, useState} from 'react';
+import {fetchAll} from '../Request/http';
+import Pdf from 'react-native-pdf';
+import {useNavigation} from '@react-navigation/native';
 
 export function Song() {
-  const data = [
-    {
-      name: "Chuyện tình nhà thơ",
-      image: "../../assets/img/lock.png",
-    },
-    {
-      name: "Phải chia tay thôi",
-      image: "../../assets/img/lock.png",
-    },
-    {
-      name: "Yêu em",
-      image: "../../assets/img/lock.png",
-    },
-    {
-      name: "Bài hát gì đó đang hót hót",
-      image: "../../assets/img/lock.png",
-    },
-  ];
-  const renderItem = (item) => {
+  const navigation = useNavigation();
+  const windowWidth = Dimensions.get('window').width;
+  const [fetchDataArtist, setFetchDataArtist] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const data = await fetchAll();
+      setFetchDataArtist(data);
+    }
+
+    fetchData();
+
+    // upArtist(post);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const renderItem = item => {
+    const path = item.item.path;
+
+    const source = {uri: 'bundle-assets://' + path + '.pdf'};
     return (
-      <TouchableOpacity>
-        <View style={{ flexDirection: "row", marginVertical: 10 }}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('PostDetailsScreen', {
+            data: item.item,
+          })
+        }>
+        <View style={{flexDirection: 'row', marginVertical: 10}}>
           <View>
-            <Image
-              source={{
-                uri: "https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/283801840_169618485471409_7959856456520608362_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=YNjb1J6G0J4AX96B4Ie&_nc_ht=scontent.fhan14-1.fna&oh=00_AfC4G2wiuZ-PE5SNlXJl9ulA86-XJPlrOWrXBNjOIFQ8eg&oe=63898F3D",
-              }}
+            <Pdf
+              source={source}
               style={{
                 width: 80,
                 height: 80,
-                borderRadius: 20,
+
                 marginHorizontal: 15,
                 marginTop: 10,
               }}
@@ -40,13 +53,13 @@ export function Song() {
           <View>
             <Text
               style={{
-                fontWeight: "700",
-                textAlign: "center",
+                fontWeight: '700',
+                textAlign: 'left',
                 marginTop: 10,
                 fontSize: 16,
                 paddingTop: 12,
-              }}
-            >
+                marginRight: 130,
+              }}>
               {item.item.name}
             </Text>
           </View>
@@ -54,5 +67,14 @@ export function Song() {
       </TouchableOpacity>
     );
   };
-  return <FlatList data={data} key={Math.random()} renderItem={renderItem} />;
+  return (
+    <View style={{width: windowWidth, marginRight: 300}}>
+      <FlatList
+        data={fetchDataArtist}
+        key={Math.random()}
+        renderItem={renderItem}
+        initialNumToRender={5}
+      />
+    </View>
+  );
 }

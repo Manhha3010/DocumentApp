@@ -1,6 +1,7 @@
 import React from 'react';
-import {StyleSheet, Dimensions, View} from 'react-native';
+import {StyleSheet, Dimensions, View, Button, Alert} from 'react-native';
 import Pdf from 'react-native-pdf';
+import {upRandom} from '../../components/Request/http';
 
 export default class FavoriteScreen extends React.Component {
   render() {
@@ -9,7 +10,7 @@ export default class FavoriteScreen extends React.Component {
     //   caches: true,
     // };
     // const source = require('../../assets/pdf/1.pdf'); // ios only
-    const source = {uri: 'bundle-assets://1.pdf'};
+    const source = {uri: 'bundle-assets://26.pdf'};
     //const source = {uri:'file:///sdcard/test.pdf'};
     //const source = {uri:"data:application/pdf;base64,JVBERi0xLjcKJc..."};
     //const source = {uri:"content://com.example.blobs/xxxxxxxx-...?offset=0&size=xxx"};

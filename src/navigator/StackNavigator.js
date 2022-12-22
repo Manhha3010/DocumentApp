@@ -7,6 +7,8 @@ import SignUpScreen from '../container/SignUpScreen';
 import HomeScreen from '../container/HomeScreen';
 import {MyTabs} from './HomeNavigator';
 import React from 'react';
+import {ViewAllScreen} from '../container/ViewAllScreen';
+import PostDetailScreen from '../container/PostDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
@@ -33,6 +35,24 @@ const StackNavigator = () => {
       <Stack.Screen
         name="Tabs"
         component={MyTabs}
+        options={{
+          headerTransparent: true,
+          headerBackVisible: false,
+          headerTitle: '',
+        }}
+      />
+      <Stack.Screen
+        name="ViewAll"
+        component={ViewAllScreen}
+        options={{
+          headerTransparent: true,
+          headerBackVisible: false,
+          headerTitle: '',
+        }}
+      />
+      <Stack.Screen
+        name="PostDetailsScreen"
+        component={PostDetailScreen}
         options={{
           headerTransparent: true,
           headerBackVisible: false,

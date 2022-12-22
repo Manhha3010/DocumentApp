@@ -1,13 +1,13 @@
-import { View, Text, SafeAreaView, Image, VirtualizedList } from "react-native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import NewSong from "../NewSong";
-import Artist from "../Artist";
-import MostPlay from "../MostPlay";
+import {View, Text, SafeAreaView, Image, VirtualizedList} from 'react-native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import NewSong from '../NewSong';
+import Artist from '../Artist';
+import MostPlay from '../MostPlay';
 
 const Tab = createMaterialTopTabNavigator();
 
 function Suggest() {
-  const getItemCount = (data) => {
+  const getItemCount = data => {
     return 5;
   };
   const DATA = [];
@@ -17,7 +17,7 @@ function Suggest() {
       title: index + 1,
     };
   };
-  const list = ({ title }) => {
+  const list = ({title}) => {
     switch (title) {
       case 1: {
         return <NewSong />;
@@ -38,11 +38,11 @@ function Suggest() {
         <VirtualizedList
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 300 }}
+          contentContainerStyle={{paddingBottom: 300}}
           data={DATA}
           initialNumToRender={5}
-          renderItem={({ item }) => list(item)}
-          keyExtractor={(item) => item.id}
+          renderItem={({item}) => list(item)}
+          keyExtractor={item => item.id}
           getItemCount={getItemCount}
           getItem={getItem}
         />
