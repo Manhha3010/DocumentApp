@@ -6,71 +6,29 @@ import WelCome from '../container/WelcomeScreen/Welcome';
 import SignUpScreen from '../container/SignUpScreen';
 import HomeScreen from '../container/HomeScreen';
 import {MyTabs} from './HomeNavigator';
-import React from 'react';
+import React, {useState} from 'react';
 import {ViewAllScreen} from '../container/ViewAllScreen';
 import PostDetailScreen from '../container/PostDetailScreen';
+import {AuthContext} from '../store/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import UnAuthen from './unAuthen';
+import AuthStack from './authStack';
 
 const Stack = createNativeStackNavigator();
 const StackNavigator = () => {
-  return (
-    <Stack.Navigator>
-      {/* <Stack.Screen
-        name="LoginScreen"
-        component={LoginScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="SignUpScreen"
-        component={SignUpScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />  */}
-      <Stack.Screen
-        name="Tabs"
-        component={MyTabs}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="ViewAll"
-        component={ViewAllScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="PostDetailsScreen"
-        component={PostDetailScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen name="Welcome" component={WelCome} />
-    </Stack.Navigator>
-  );
+  const [token, setToken] = useState('');
+
+  const getToken = async () => {
+    const tokenAsync = await AsyncStorage.getItem('token');
+    setToken(tokenAsync);
+    console.log('token asynxc', tokenAsync);
+    console.log(token);
+  };
+  getToken();
+
+  const userInfor = React.useContext(AuthContext);
+
+  return userInfor.token || token ? <AuthStack /> : <UnAuthen />;
 };
 
 export default StackNavigator;

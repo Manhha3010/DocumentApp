@@ -6,6 +6,7 @@ import WelCome from '../container/WelcomeScreen/Welcome';
 import SignUpScreen from '../container/SignUpScreen';
 import {MyTabs} from './HomeNavigator';
 import HomeScreen from '../container/HomeScreen';
+import PostDetailScreen from '../container/PostDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const UnAuthen = () => {
@@ -24,24 +25,6 @@ const UnAuthen = () => {
       <Stack.Screen
         name="SignUpScreen"
         component={SignUpScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
-        options={{
-          headerTransparent: true,
-          headerBackVisible: false,
-          headerTitle: '',
-        }}
-      />
-      <Stack.Screen
-        name="Tabs"
-        component={MyTabs}
         options={{
           headerTransparent: true,
           headerBackVisible: false,

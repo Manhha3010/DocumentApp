@@ -10,9 +10,10 @@ import {
   Modal,
   Alert,
   KeyboardAvoidingView,
+  ActivityIndicator,
   ScrollView,
 } from 'react-native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {styles} from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import {useRef, useState} from 'react';
@@ -23,6 +24,8 @@ import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {useNavigation} from '@react-navigation/native';
 import {colors} from '../../const/color';
 import {signIn} from '../../components/Request/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {AuthContext} from '../../store/AuthContext';
 
 function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -31,8 +34,10 @@ function LoginScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalNumber, setModalNumber] = useState(0);
   const [otp, setOtp] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigation = useNavigation();
+  const userInfor = useContext(AuthContext);
 
   // const clearText = () => {
   //   otpInput.current.clear();
@@ -348,14 +353,16 @@ function LoginScreen() {
   }
 
   const onPressSignIn = async () => {
+    setIsLoading(true);
     try {
       const res = await signIn(email, passWord);
       console.log('ress o man login', res);
-      if (res) {
-        navigation.replace('Tabs');
-      }
+      await AsyncStorage.setItem('token', res.data.idToken);
+      userInfor.setToken(res.data.idToken);
+      setIsLoading(false);
     } catch (error) {
       Alert.alert(error.message);
+      setIsLoading(false);
       return;
     }
   };
@@ -425,7 +432,11 @@ function LoginScreen() {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={onPressSignIn}>
-              <ButtonBig text={'Đăng nhập'} />
+              {!isLoading ? (
+                <ButtonBig text={'Đăng nhập'} />
+              ) : (
+                <ActivityIndicator size="large" color="#0000ff" />
+              )}
             </TouchableOpacity>
             <View style={{paddingVertical: 20}}>
               <TouchableOpacity>

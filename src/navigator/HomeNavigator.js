@@ -49,7 +49,7 @@ export function MyTabs() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="PlaylistScreen"
         component={PlaylistScreen}
         options={{
@@ -67,7 +67,7 @@ export function MyTabs() {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="SettingScreen"
         component={SettingScreen}
