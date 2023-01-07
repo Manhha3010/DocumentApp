@@ -1,44 +1,83 @@
-import React from 'react';
-import {StyleSheet, Dimensions, View} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {
+  StyleSheet,
+  Dimensions,
+  View,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import Pdf from 'react-native-pdf';
 import {CustomizeHeader} from '../../components/Header';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {colors} from '../../const/color';
+import {AuthContext} from '../../store/AuthContext';
 
-export default class PostDetailScreen extends React.Component {
-  render() {
-    const data = this.props.route.params.data;
+export default function PostDetailScreen(props) {
+  const data = props.route.params.data;
+  const infor = useContext(AuthContext);
+  console.log('[paskd[paskd[pas]]]', data);
+  const path = data.path;
+  const source = {uri: 'bundle-assets://' + path + '.pdf'};
+  const status = infor.favorite.includes(data.path);
 
-    console.log('[paskd[paskd[pas]]]', data);
-    const path = data.path;
-    const source = {uri: 'bundle-assets://' + path + '.pdf'};
-    //const source = {uri:'file:///sdcard/test.pdf'};
-    //const source = {uri:"data:application/pdf;base64,JVBERi0xLjcKJc..."};
-    //const source = {uri:"content://com.example.blobs/xxxxxxxx-...?offset=0&size=xxx"};
-    //const source = {uri:"blob:xxxxxxxx-...?offset=0&size=xxx"};
-
-    return (
-      <View style={styles.container}>
-        <View style={{paddingHorizontal: 0}}>
-          <CustomizeHeader title={data.name} isBack={true} />
-        </View>
-        <Pdf
-          source={source}
-          // onLoadComplete={(numberOfPages, filePath) => {
-          //   console.log(`Number of pages: ${numberOfPages}`);
-          // }}
-          // onPageChanged={(page, numberOfPages) => {
-          //   console.log(`Current page: ${page}`);
-          // }}
-          // onError={error => {
-          //   console.log(error);
-          // }}
-          // onPressLink={uri => {
-          //   console.log(`Link pressed: ${uri}`);
-          // }}
-          style={styles.pdf}
-        />
+  useEffect(() => {
+    console.log('list history', infor.idHistory);
+    if (infor.idHistory.includes(data.path)) {
+      console.log('da co trong history');
+    } else {
+      infor.addIdHistory(data.path);
+      infor.addHistory(data);
+      console.log('them vao history');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const onPressFavorite = () => {
+    const obj = {
+      name: data.name,
+      path: data.path,
+    };
+    if (infor.favorite.includes(obj.path)) {
+      infor.removeFavorite(obj.path);
+      infor.removeItemFavorite(obj);
+      Alert.alert('Đã bỏ yêu thích bài viết ');
+    } else {
+      infor.addFavorite(obj.path);
+      infor.addItemFavorite(obj);
+      Alert.alert('Đã yêu thích bài viết');
+    }
+    console.log('first', infor.favorite);
+    console.log('list favoriet', infor.itemFavorite);
+  };
+  return (
+    <View style={styles.container}>
+      <View style={{paddingHorizontal: 0}}>
+        <CustomizeHeader title={data.name} isBack={true} />
       </View>
-    );
-  }
+      <TouchableOpacity onPress={onPressFavorite}>
+        <MaterialCommunityIcons
+          name={status ? 'heart-circle' : 'heart-circle-outline'}
+          size={48}
+          color={colors.primary}
+        />
+      </TouchableOpacity>
+      <Pdf
+        source={source}
+        // onLoadComplete={(numberOfPages, filePath) => {
+        //   console.log(`Number of pages: ${numberOfPages}`);
+        // }}
+        // onPageChanged={(page, numberOfPages) => {
+        //   console.log(`Current page: ${page}`);
+        // }}
+        // onError={error => {
+        //   console.log(error);
+        // }}
+        // onPressLink={uri => {
+        //   console.log(`Link pressed: ${uri}`);
+        // }}
+        style={styles.pdf}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

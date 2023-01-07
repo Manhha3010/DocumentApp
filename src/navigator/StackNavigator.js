@@ -21,8 +21,8 @@ const StackNavigator = () => {
   const getToken = async () => {
     const tokenAsync = await AsyncStorage.getItem('token');
     setToken(tokenAsync);
-    console.log('token asynxc', tokenAsync);
-    console.log(token);
+    // console.log('token asynxc', tokenAsync);
+    // console.log(token);
   };
   getToken();
 

@@ -10,13 +10,13 @@ import Artist from '../../components/Artist';
 import MostPlay from '../../components/MostPlay';
 import NewSong from '../../components/NewSong';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import FavoriteScreen from '../FavoriteScreen';
 import Suggest from '../../components/Suggest';
 import {Song} from '../../components/Song';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {colors} from '../../const/color';
 import React from 'react';
+import HistoryScreen from '../History';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -43,7 +43,7 @@ function HomeScreen() {
       <Tab.Navigator style={{flex: 1, minHeight: 1000}}>
         <Tab.Screen name="Gợi Ý" component={Suggest} />
         <Tab.Screen name="Tất cả tài liệu" component={Song} />
-        <Tab.Screen name="Tài liệu của tôi" component={FavoriteScreen} />
+        <Tab.Screen name="Đã xem gần đây" component={HistoryScreen} />
       </Tab.Navigator>
     </View>
   );

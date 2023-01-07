@@ -13,12 +13,12 @@ import {useNavigation} from '@react-navigation/native';
 import {AuthContext} from '../../store/AuthContext';
 import {CustomizeHeader} from '../../components/Header';
 
-export default function FavoriteScreen(props) {
+export default function HistoryScreen(props) {
   const navigation = useNavigation();
   const windowWidth = Dimensions.get('window').width;
   const infor = useContext(AuthContext);
-  console.log('infor', infor.itemFavorite);
-  const status = infor.itemFavorite.length;
+  const status = infor.history.length;
+  console.log('item history', infor?.history);
 
   const renderItem = item => {
     const path = item.item.path;
@@ -64,10 +64,10 @@ export default function FavoriteScreen(props) {
   };
   return (
     <View style={{width: windowWidth, marginRight: 300}}>
-      <CustomizeHeader
-        title={'Danh sách yêu thích'}
+      {/* <CustomizeHeader
+        title={'Đã xem gần đây'}
         styleTitle={{marginLeft: 100}}
-      />
+      /> */}
       {status === 0 ? (
         <Text
           style={{
@@ -78,12 +78,11 @@ export default function FavoriteScreen(props) {
             marginTop: 200,
             paddingHorizontal: 45,
           }}>
-          Gần đây bạn chưa yêu thích bài viêt nào. Hãy thử yêu thích một bài
-          viết nhé!
+          Gần đây bạn chưa xem bài viêt nào. Hãy thử xem một bài viết nhé!
         </Text>
       ) : (
         <FlatList
-          data={infor.itemFavorite}
+          data={infor.history}
           key={Math.random()}
           renderItem={renderItem}
           initialNumToRender={5}

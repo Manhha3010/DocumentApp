@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary,
-    marginTop: 30,
+    // marginTop: 30,
   },
   title: {
     color: '#fff',

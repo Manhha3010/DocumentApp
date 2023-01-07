@@ -8,7 +8,13 @@ function PlaylistScreen() {
   const userInfor = useContext(AuthContext);
   const onPressLogOut = async () => {
     userInfor.setToken(null);
-    await AsyncStorage.setItem('token', '');
+    try {
+      await AsyncStorage.setItem('token', '');
+      const res = await AsyncStorage.getItem('token');
+      console.log('resss logout', res);
+    } catch (error) {
+      console.log(error);
+    }
     console.log('userinfro', userInfor);
   };
   return (
